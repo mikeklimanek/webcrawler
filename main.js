@@ -31,7 +31,7 @@ async function main(){
   try {
     for (const button of buttons) {
       const label = await page.evaluate(el => el.textContent, button);
-      console.log('Button label:', label); // Log the label of each button
+      console.log('Button label:', label); 
       if (label.includes('LOGIN by AZURE AD')) {
         console.log('Found and clicking the button');
         await button.click();
@@ -45,10 +45,8 @@ async function main(){
       return;
     }
     console.log('Waiting for navigation after button click');
-    // Wait for the navigation to complete
     await page.waitForNavigation({ timeout: 20000 });
   
-    // Update baseURL with the current URL after redirection
     baseURL = page.url();
     console.log('Redirected to:', baseURL);
   
@@ -84,9 +82,7 @@ async function main(){
 
   await page.screenshot({ path: 'screenshot4.png' });   
 
-// Check if login was successful by looking for a known element on the target page
   const isLoggedIn = await page.evaluate(() => {
-    // Replace with a selector that is unique to the logged-in state
     const someElement = document.querySelector('jss17');
     return someElement !== null;
   });
@@ -94,12 +90,11 @@ async function main(){
   console.info(isLoggedIn ? "Logged in!" : "Failed to log in.");
   
   
-  // Check for an element that exists on the /calendar page
   baseURL = 'https://my-rsms.com/calendar';
   await page.goto(baseURL);
   console.info("On calendar page!");
-  await page.goto(baseURL, { waitUntil: 'networkidle0' }); // Waits for network to be idle
-  // Now query for the <p> elements
+  await page.goto(baseURL, { waitUntil: 'networkidle0' }); 
+
   const content = await page.evaluate(() => {
     const elements = document.querySelectorAll('p.MuiTypography-root.MuiTypography-body1.MuiTypography-colorPrimary.MuiTypography-alignCenter');
     return Array.from(elements).map(el => el.textContent.trim());
