@@ -49,17 +49,15 @@ async function main(){
     await page.waitForNavigation({ timeout: 20000 });
   
     // Update baseURL with the current URL after redirection
-    baseURL = currentPage.url();
+    baseURL = page.url();
     console.log('Redirected to:', baseURL);
   
     console.log('Waiting for navigation after button click');
-    await page.waitForTimeout(10000);
     baseURL = page.url();
     console.log('Redirected to:', baseURL);
-    await page.waitForSelector('#loginfmt', { timeout: 20000 });
     console.log('Navigation complete, taking screenshot');
     await page.screenshot({ path: 'after-click.png' });
-  
+    
   } catch (error) {
     console.error('Error during button click or navigation:', error);
   }
@@ -67,7 +65,7 @@ async function main(){
   //////////////////////////
   
   
-  
+  await page.waitForNavigation({ timeout: 20000 });
   await page.screenshot({ path: 'screenshot2.png' });
   await page.type('#loginfmt', username);
   await page.focus('#loginfmt');
